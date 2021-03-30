@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
 
     //int value = 0;
-    ValueHandler handler = new ValueHandler();
+    //ValueHandler handler = new ValueHandler();
+
+    Handler handler2 = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +28,33 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BackgroundThread thread = new BackgroundThread();
-                thread.start();
+                //BackgroundThread thread = new BackgroundThread();
+                //thread.start();
+
+                new Thread(new Runnable() {
+                    int value = 0;
+                    boolean running = false;
+
+                    @Override
+                    public void run() {
+                        running = true;
+                        while(running) {
+                            value += 1;
+
+                            handler2.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    textView.setText("현재 값 : " + value);
+                                }
+                            });
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                }).start();
             }
         });
 
@@ -41,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class BackgroundThread extends Thread {
+/*    class BackgroundThread extends Thread {
         int value =0;
         boolean running = false;
         public void run(){
@@ -71,5 +98,5 @@ public class MainActivity extends AppCompatActivity {
             int value = bundle.getInt("value");
             textView.setText("현재 값 : " +value);
         }
-    }
+    }*/
 }
