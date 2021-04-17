@@ -11,9 +11,9 @@
   
 AsyncTask 생명주기 관리는 다섯 가지의 생명주기 함수들을 재정의 함으로써 관리할 수 있다.  
 1. AsyncTask 시작  
-2. onPreExecute()  
-3. doInBackground() >> onProgressUpdate  
-4. onCancellsed() or onPostExecute()  
+2. onPreExecute() //시작  
+3. onProgressUpdate <> doInBackground() //도중(doInBackground는 메인스레드가아닌 다른 스레드에서 실행)
+4. onCancellsed() or onPostExecute() //끝  
 5. AsyncTask 종료  
 
 doInBackground()를 제외한 함수들은 전부 메인쓰레드에서 실행되는 함수이고 doInBackground() 함수는 작업 스레드를 실행하는 함수로 메인 스레드와는 별개로 오래걸리는 작업을 처리한다. 이때 doInBackground() 함수에서 publishProgress() 함수를 호출하면 'onProgressUpdate()' 함수가 실행이 되는데 이를 통해 작업 스레드를 실행하면서 UI처리가 가능하다. 일반적으로 예제와같이 작업 진행 정도를 표시하는 용도로 많이 사용한다.
